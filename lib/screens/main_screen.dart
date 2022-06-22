@@ -1,7 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
-class MainHeaderWalletWidget extends StatelessWidget {
+class MainHeaderWalletWidget extends StatefulWidget {
+  @override
+  State<MainHeaderWalletWidget> createState() => _MainHeaderWalletWidgetState();
+}
+
+class _MainHeaderWalletWidgetState extends State<MainHeaderWalletWidget> {
+  final numberFormat = new NumberFormat("##,##0", "en_US");
+
+//calling API---> Get Sender Data
+  final urlCallServer =
+      Uri.http('192.168.1.8:8000', '/persons/62af2ee318eebeed601ef707');
+  var SenderMoney = 0;
+  Future<void> GEtData() async {
+    final response = await http.get(urlCallServer);
+    final ExtractedData = json.decode(response.body);
+    setState(() {
+      SenderMoney = ExtractedData['amount'];
+    });
+    print(SenderMoney);
+  }
+
+  @override
+  void initState() {
+    GEtData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,13 +71,15 @@ class MainHeaderWalletWidget extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           Spacer(),
-                          Text(
-                            'EGP 8,000',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.w900),
-                          ),
+                          (SenderMoney == 0)
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(
+                                  'EGP ${numberFormat.format(SenderMoney)}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w900),
+                                ),
                         ],
                       ),
                     ),

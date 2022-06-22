@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_two/screens/main_screen.dart';
-
+import '../screens/main_screen.dart';
 import '../screens/data_enteringBox.dart';
 
 class HomeWidgetShow extends StatelessWidget {

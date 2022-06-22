@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_two/homeWidget/home.dart';
-
-import '../screens/main_screen.dart';
+import '../homeWidget/home.dart';
+import '../screens/blueScreen_Data.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Avenir LT Std',
       ),
       home: HomeWidgetShow(),
-      // routes: ,
+      routes: {SecondScreenShowData.routeName: (ctx) => SecondScreenShowData()},
     );
   }
 }
