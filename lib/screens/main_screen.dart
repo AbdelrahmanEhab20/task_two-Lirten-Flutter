@@ -14,7 +14,7 @@ class _MainHeaderWalletWidgetState extends State<MainHeaderWalletWidget> {
 
 //calling API---> Get Sender Data
   final urlCallServer =
-      Uri.http('192.168.1.8:8000', '/persons/62af2ee318eebeed601ef707');
+      Uri.http('192.168.0.163:8000', '/persons/62af2ee318eebeed601ef707');
   var SenderMoney = 0;
   Future<void> GEtData() async {
     final response = await http.get(urlCallServer);

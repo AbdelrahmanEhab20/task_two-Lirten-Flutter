@@ -41,7 +41,7 @@ class _SecondScreenShowDataReceiverState extends State<SecondScreenShowData> {
   Map ReceiverData = {};
   Future<void> GetRecieverData() async {
     final urlCallServer =
-        Uri.http('192.168.1.8:8000', '/persons/byName/${nameReceiver}');
+        Uri.http('192.168.0.163:8000', '/persons/byName/${nameReceiver}');
     final response = await http.get(urlCallServer);
     final ExtractedData = json.decode(response.body);
     print(ExtractedData);
@@ -52,7 +52,7 @@ class _SecondScreenShowDataReceiverState extends State<SecondScreenShowData> {
 
 //calling API---> Get Sender Data
   final urlCallServer =
-      Uri.http('192.168.1.8:8000', '/persons/62af2ee318eebeed601ef707');
+      Uri.http('192.168.0.163:8000', '/persons/62af2ee318eebeed601ef707');
   Map SenderData = {};
   Future<void> GEtSenderData() async {
     final response = await http.get(urlCallServer);
@@ -63,7 +63,7 @@ class _SecondScreenShowDataReceiverState extends State<SecondScreenShowData> {
   }
 
   final urlCallServerNew =
-      Uri.http('192.168.1.8:8000', '/persons/finish-Transfer');
+      Uri.http('192.168.0.163:8000', '/persons/finish-Transfer');
   Future<void> FinishTransferRequest() async {
     final response = await http.post(urlCallServerNew,
         headers: {"Content-Type": "application/json"},
@@ -84,7 +84,7 @@ class _SecondScreenShowDataReceiverState extends State<SecondScreenShowData> {
                       color: Colors.green, fontWeight: FontWeight.w900),
                 ),
                 content: Text(
-                    "Receiver Cash After Update:${ExtractedResponse['Receiver Cash']}",
+                    "Receiver Name: ${ReceiverData['firstName']} ${ReceiverData['lastName']}\n -----------------------\n Receiver Cash After Update: ${ExtractedResponse['Receiver Cash']}",
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
                 actions: [
@@ -117,249 +117,227 @@ class _SecondScreenShowDataReceiverState extends State<SecondScreenShowData> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(22, 27, 69, 1),
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
         backgroundColor: Color.fromRGBO(22, 27, 69, 1),
-        elevation: 0,
-        title: Image.asset(
-          'assets/images/LogoPixelFrame.png',
-          width: 140,
-          height: 120,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromRGBO(22, 27, 69, 1),
+          elevation: 0,
+          title: Image.asset(
+            'assets/images/LogoPixelFrame.png',
+            width: 140,
+            height: 120,
+          ),
         ),
-      ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        width: 350,
-        height: 700,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 40),
-                child: Center(
-                  child: Text(
-                    "Are you sure you want to transfer?",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white),
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          width: 350,
+          height: 700,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 40),
+                  child: Center(
+                    child: Text(
+                      "Are you sure you want to transfer?",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 40),
-                      child: Text(
-                        'From',
-                        style: TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.normal,
-                            color: Colors.white),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(right: 40),
+                        child: Text(
+                          'From',
+                          style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.normal,
+                              color: Colors.white),
+                        ),
                       ),
-                    ),
-                    SenderData == {}
-                        ? CircularProgressIndicator()
-                        : Container(
-                            width: 195,
-                            child: ListTile(
-                              title: Text(
-                                '${SenderData['firstName']} ${SenderData['lastName']}',
-                                style: TextStyle(
-                                    fontSize: 18,
-
-                                    // fontWeight: FontWeight.w800,
-                                    color: Colors.white),
-                              ),
-                              subtitle: Text(
-                                '# ${SenderData['bankAccount']}',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    // fontWeight: FontWeight.w800,
-                                    color: Colors.white),
-                              ),
-                            )),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 50),
-                      child: Text(
-                        'To',
-                        style: TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.normal,
-                            color: Colors.white),
-                      ),
-                    ),
-                    ReceiverData == {}
-                        ? CircularProgressIndicator()
-                        : Container(
-                            width: 195,
-                            child: ListTile(
-                              title: Container(
-                                // margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  '${ReceiverData['firstName']} ${ReceiverData['lastName']}',
+                      SenderData == {}
+                          ? CircularProgressIndicator()
+                          : Container(
+                              width: 195,
+                              child: ListTile(
+                                title: Text(
+                                  '${SenderData['firstName']} ${SenderData['lastName']}',
                                   style: TextStyle(
                                       fontSize: 18,
+
                                       // fontWeight: FontWeight.w800,
                                       color: Colors.white),
                                 ),
-                              ),
-                              subtitle: Text(
-                                '# ${ReceiverData['bankAccount']}',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    // fontWeight: FontWeight.w800,
-                                    color: Colors.white),
-                              ),
-                            )),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text(
-                        'Amount',
-                        style: TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.normal,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                        width: 195,
-                        child: ListTile(
-                          title: Text(
-                            'EGP ${amountTransfer}',
-                            style: TextStyle(
-                                fontSize: 18,
-                                // fontWeight: FontWeight.w800,
-                                color: Colors.white),
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text(
-                        'Date',
-                        style: TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.normal,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                        width: 195,
-                        child: ListTile(
-                          title: Text(
-                            "${DateFormat.yMMMEd().format(DateTime.now())}",
-                            style: TextStyle(
-                                fontSize: 18,
-                                // fontWeight: FontWeight.w800,
-                                color: Colors.white),
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 85,
-                      child: Text(
-                        'Note',
-                        style: TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.normal,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                        width: 195,
-                        child: ListTile(
-                          title: Text(
-                            'This process will be finished after press Confirm ',
-                            style: TextStyle(
-                                fontSize: 18,
-                                // fontWeight: FontWeight.w800,
-                                color: Colors.white),
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              Container(
-                // color: Color(0xFF161B45),
-                margin: EdgeInsets.symmetric(vertical: 25),
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                width: 370,
-                height: 42,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    end: Alignment.topRight,
-                    begin: Alignment.bottomLeft,
-                    colors: [
-                      Color(0xFFD393EF),
-                      Color(0xFF2BD4FB),
+                                subtitle: Text(
+                                  '# ${SenderData['bankAccount']}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      // fontWeight: FontWeight.w800,
+                                      color: Colors.white),
+                                ),
+                              )),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(30.5),
                 ),
-                child: TextButton(
-                  onPressed: () {
-                    FinishTransferRequest();
-                  },
-                  child: Text(
-                    'CONFIRM',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontFamily: 'Avenir LT Std'),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(right: 50),
+                        child: Text(
+                          'To',
+                          style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.normal,
+                              color: Colors.white),
+                        ),
+                      ),
+                      ReceiverData == {}
+                          ? CircularProgressIndicator()
+                          : Container(
+                              width: 195,
+                              child: ListTile(
+                                title: Container(
+                                  // margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '${ReceiverData['firstName']} ${ReceiverData['lastName']}',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        // fontWeight: FontWeight.w800,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '# ${ReceiverData['bankAccount']}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      // fontWeight: FontWeight.w800,
+                                      color: Colors.white),
+                                ),
+                              )),
+                    ],
                   ),
                 ),
-              ),
-              RadiantGradientMask(
-                child: Container(
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Amount',
+                          style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.normal,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                          width: 195,
+                          child: ListTile(
+                            title: Text(
+                              'EGP ${amountTransfer}',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  // fontWeight: FontWeight.w800,
+                                  color: Colors.white),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Date',
+                          style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.normal,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                          width: 195,
+                          child: ListTile(
+                            title: Text(
+                              "${DateFormat.yMMMEd().format(DateTime.now())}",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  // fontWeight: FontWeight.w800,
+                                  color: Colors.white),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 85,
+                        child: Text(
+                          'Note',
+                          style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.normal,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                          width: 195,
+                          child: ListTile(
+                            title: Text(
+                              'This process will be finished after press Confirm ',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  // fontWeight: FontWeight.w800,
+                                  color: Colors.white),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+                Container(
                   // color: Color(0xFF161B45),
-                  margin: EdgeInsets.symmetric(vertical: 15),
+                  margin: EdgeInsets.symmetric(vertical: 25),
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   width: 370,
                   height: 42,
                   decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Color.fromARGB(255, 191, 187, 187)),
+                    gradient: LinearGradient(
+                      end: Alignment.topRight,
+                      begin: Alignment.bottomLeft,
+                      colors: [
+                        Color(0xFFD393EF),
+                        Color(0xFF2BD4FB),
+                      ],
+                    ),
                     borderRadius: BorderRadius.circular(30.5),
                   ),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/');
+                      FinishTransferRequest();
                     },
                     child: Text(
-                      'CANCEL',
+                      'CONFIRM',
                       style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -367,8 +345,34 @@ class _SecondScreenShowDataReceiverState extends State<SecondScreenShowData> {
                     ),
                   ),
                 ),
-              )
-            ],
+                RadiantGradientMask(
+                  child: Container(
+                    // color: Color(0xFF161B45),
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    width: 370,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Color.fromARGB(255, 191, 187, 187)),
+                      borderRadius: BorderRadius.circular(30.5),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/');
+                      },
+                      child: Text(
+                        'CANCEL',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontFamily: 'Avenir LT Std'),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

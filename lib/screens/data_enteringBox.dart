@@ -12,7 +12,8 @@ class DataEnteringBoxWidget extends StatefulWidget {
 
 class _DataEnteringBoxWidgetState extends State<DataEnteringBoxWidget> {
   //calling API---> Get Sender Data
-  final urlCallServer = Uri.http('192.168.1.8:8000', '/persons/check-Transfer');
+  final urlCallServer =
+      Uri.http('192.168.0.163:8000', '/persons/check-Transfer');
   // 192.168.0.163:8000(Preferred) ----> Ip Address for API Local Host Link
 
   // to handle Focus we make it manually and they must be disposed after finished
@@ -83,7 +84,7 @@ class _DataEnteringBoxWidgetState extends State<DataEnteringBoxWidget> {
                 actions: [
                   TextButton(
                     child: Text('OK'),
-                    onPressed: (() => Navigator.of(ctx).pushNamed(
+                    onPressed: (() => Navigator.of(ctx).pushReplacementNamed(
                             SecondScreenShowData.routeName,
                             arguments: {
                               'amountTransfer': amountMoney,
@@ -160,7 +161,7 @@ class _DataEnteringBoxWidgetState extends State<DataEnteringBoxWidget> {
                       child: RadiantGradientMask(
                         child: SizedBox(
                           child: SvgPicture.asset(
-                            'assets/images/EGP.svg',
+                            'assets/images/New-EGP.svg',
                           ),
                         ),
                       ),
@@ -187,7 +188,7 @@ class _DataEnteringBoxWidgetState extends State<DataEnteringBoxWidget> {
                     return 'Please provide name of receiver ,Required';
                   }
                   if (!RegExp(r'^[a-z A-Z]+$').hasMatch(value.toString())) {
-                    return 'Enter A positive Valid Amount of money';
+                    return 'Enter A valid Name';
                   }
                   return null;
                 }),
